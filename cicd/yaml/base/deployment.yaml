@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshop-cart
+  labels:
+    app: eshop-cart
+spec:
+  selector:
+    matchLabels:
+      app: eshop-cart
+  template:
+    metadata:
+      labels:
+        app: eshop-cart
+    spec:
+      containers:
+        - name: eshop-cart
+          image: localhost:5001/setnext/eshop-cart:v16
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: app-config
+              mountPath: /app
+      volumes:
+        - name: "app-config"
+          configMap:
+            name: "eshop-cart-configmap"

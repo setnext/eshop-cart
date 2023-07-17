@@ -4,8 +4,8 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Cart struct {
 	Id        primitive.ObjectID `bson:"id,omitempty"`
-	UserId    string             `bson:"userId,omitempty" validate:"required"`
-	CartItems []CartItem         `bson:"cartItems,omitempty" validate:"required"`
+	UserId    string             `json:"userId" bson:"userId" validate:"required"`
+	CartItems []CartItem         `json:"cartItems" bson:"cartItems" validate:"required"`
 }
 
 type CartItem struct {
@@ -16,4 +16,6 @@ type CartItem struct {
 	Category    string `json:"category" bson:"category" validate:"required"`
 	ImageURL    string `json:"imageUrl" bson:"imageUrl" validate:"required"`
 	ProductUrl  string `json:"productUrl" bson:"productUrl" validate:"required"`
+	UnitPrice   int    `json:"unitPrice" bson:"unitPrice" validate:"required"`
+	TotalPrice  int    `json:"totalPrice" bson:"totalPrice" validate:"required"`
 }

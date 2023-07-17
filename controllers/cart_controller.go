@@ -32,15 +32,23 @@ func CreateOrUpdateCart() gin.HandlerFunc {
 
 		// var rr = c.BindJSON(&cart1)
 		// fmt.Println(rr)
+		fmt.Printf("%#v", cart)
 
-		fmt.Println(cart)
+		fmt.Println(cart.UserId)
+		fmt.Println(cart.CartItems)
 		if err := c.BindJSON(&cart); err != nil {
+			fmt.Println("binding error")
 			c.JSON(http.StatusBadRequest, responses.CartResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
 		}
+		fmt.Printf("%#v", cart)
 
+		fmt.Println(cart.UserId)
+		fmt.Println(cart.CartItems)
+		fmt.Println("Validation Starts")
 		//use the validator library to validate required fields
 		if validationErr := validate.Struct(&cart); validationErr != nil {
+			fmt.Println("Validation error")
 			c.JSON(http.StatusBadRequest, responses.CartResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
 		}
@@ -102,13 +110,15 @@ func GetCart() gin.HandlerFunc {
 
 		err := cartCollection.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, responses.CartResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": "No Cart Found for the User"}})
+			c.JSON(http.StatusOK, responses.CartResponse{Status: http.StatusNotFound, Message: "NO_CART_FOUND", Data: map[string]interface{}{"data": "No Cart Found for the User"}})
 			return
 		}
 
 		c.JSON(http.StatusOK, responses.CartResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": user}})
 	}
 }
+
+
 
 func DeleteCart() gin.HandlerFunc {
 	return func(c *gin.Context) {

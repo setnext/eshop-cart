@@ -9,7 +9,7 @@ spec:
   ports:
     - port: 80
       name: "80"
-      targetPort: 6000
+      targetPort: 5000
       nodePort: 32766
   selector:
     app: eshop-cart

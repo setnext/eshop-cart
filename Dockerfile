@@ -13,6 +13,6 @@ COPY *.go ./
 
 RUN go build -o /eshop-cart-api
 
-EXPOSE 6000
+EXPOSE 5000
 
 CMD [ "/eshop-cart-api" ]
